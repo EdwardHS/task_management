@@ -1,0 +1,27 @@
+name: production deployment
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and build frontend
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      - name: Deploy to DigitalOcean
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: client/build/*
+          target: /var/www/${{ secrets.DOMAIN_NAME}}/
+          strip_components: 2
