@@ -23,5 +23,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: client/build/*
-          target: /var/www/${{ secrets.DOMAIN_NAME}}/
-          strip_components: 2
+          target: /var/www/${{ secrets.DOMAIN_NAME}}/client/build
