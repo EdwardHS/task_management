@@ -1,0 +1,170 @@
+.task-page {
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.task-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.create-task-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.create-task-button:hover {
+    background-color: #218838;
+}
+
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.task-table th,
+.task-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Set fixed width for Title and Description columns */
+.task-table th.title-column,
+.task-table td.title-column {
+    width: 200px; /* Adjust as needed */
+    max-width: 200px;
+}
+
+.task-table th.description-column,
+.task-table td.description-column {
+    width: 300px; /* Adjust as needed */
+    max-width: 300px;
+}
+
+/* Truncate text with ellipsis if it overflows */
+.task-table td.title-column,
+.task-table td.description-column {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive adjustments for other columns */
+.task-table th.status-column,
+.task-table td.status-column {
+    width: 100px;
+}
+
+.task-table th.actions-column,
+.task-table td.actions-column {
+    width: 150px;
+}
+
+.task-table th.created-column,
+.task-table td.created-column {
+    width: 180px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.action-buttons button:first-child {
+    background-color: #007bff;
+    color: white;
+}
+
+.action-buttons button:last-child {
+    background-color: #dc3545;
+    color: white;
+}
+
+.task-table td.title-column {
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.task-table td.title-column:hover {
+    text-decoration: none; /* Optional: Remove underline on hover */
+}
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+    .task-table {
+        font-size: 14px;
+    }
+
+    .task-table th,
+    .task-table td {
+        padding: 10px;
+    }
+
+    .task-table th.description-column,
+    .task-table td.description-column,
+    .task-table th.actions-column,
+    .task-table td.actions-column {
+        display: none;
+    }
+
+    .task-table td:last-child {
+        position: relative;
+    }
+
+    .task-table td:last-child::after {
+        content: 'Actions';
+        font-size: 14px;
+        color: #007bff;
+        cursor: pointer;
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+    .task-table td:last-child:hover .action-buttons-dropdown {
+        display: block;
+    }
+
+    .action-buttons-dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+    }
+
+    .action-buttons-dropdown button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        text-align: left;
+        background: none;
+        border: none;
+        color: #007bff;
+    }
+
+    .action-buttons-dropdown button:hover {
+        background-color: #f4f4f4;
+    }
+}
