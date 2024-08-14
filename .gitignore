@@ -23,5 +23,5 @@
 /*/yarn-error.log*
 /*/package-lock.json
 /*/config.env
-/*/config.env.sample
+# /*/config.env.sample
 /*/build
