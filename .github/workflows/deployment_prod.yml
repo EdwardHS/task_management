@@ -42,10 +42,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/${{ secrets.DOMAIN_NAME }}/server
-            echo "NODE_ENV='local'" > .config.env
-            echo "DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}" >> .config.env
-            echo "DB_USER=${{ secrets.DB_USER }}" > .config.env
-            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .config.env
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .config.env
+            echo "NODE_ENV='local'" > config.env
+            echo "DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}" >> config.env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> config.env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> config.env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> config.env
             npm install
             pm2 restart task_management_server
