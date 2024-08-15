@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/css/TaskDialog.css';
 
-const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, initialTask }) => {
+const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, onMarkPending,initialTask }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('Pending');
@@ -42,12 +42,13 @@ const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, initial
 
     const handleSave = () => {
         onSave({ title, description, status: status === 'Completed' });
+        setTitle('');
+        setDescription('');
         onClose();
     };
 
     const handleDelete = () => {
         if (initialTask && onDelete) {
-            console.log("delete " + initialTask.id);
             onDelete(initialTask.id);
         }
         onClose();
@@ -60,6 +61,13 @@ const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, initial
         onClose();
     };
 
+    const handleMarkPending = () => {
+        if (initialTask && onMarkPending) {
+            onMarkPending(initialTask.id);
+        }
+        onClose();
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -67,9 +75,14 @@ const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, initial
             <div className="dialog-content">
                 <div className="dialog-header">
                     <h2>{initialTask ? 'Edit Task' : 'Create Task'}</h2>
-                    {initialTask && !initialTask.status && (
+                    {initialTask && initialTask.status === 0 && (
                         <button onClick={handleMarkComplete} className="btn-mark-complete">
                             Mark as Complete
+                        </button>
+                    )}
+                    {initialTask && initialTask.status === 1 && (
+                        <button onClick={handleMarkPending} className="btn-mark-pending">
+                            Mark as Pending
                         </button>
                     )}
                 </div>
@@ -78,6 +91,7 @@ const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, initial
                         <div className="col-md-6">
                             <label>Title</label>
                             <input
+                                disabled={initialTask && initialTask.status === 1 ? true : false}
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -86,6 +100,7 @@ const TaskDialog = ({ isOpen, onClose, onSave, onDelete, onMarkComplete, initial
                         <div className="col-md-6">
                             <label>Description</label>
                             <textarea
+                                disabled={initialTask && initialTask.status === 1 ? true : false}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />

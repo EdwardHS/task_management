@@ -16,11 +16,40 @@ jobs:
           npm install
           npm run build
 
-      - name: Deploy to DigitalOcean
+      - name: Deploy client code to DigitalOcean
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: client/build/*
-          target: /var/www/${{ secrets.DOMAIN_NAME}}/client/build
+          target: /var/www/${{ secrets.DOMAIN_NAME}}/
+
+      - name: Deploy server code to DigitalOcean
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: server/*
+          target: /var/www/${{ secrets.DOMAIN_NAME }}/server/
+
+      - name: Create config file
+        run: |
+          cd server
+          echo "NODE_ENV='local'" > .config.env
+          echo "DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}" >> .config.env
+          echo "DB_USER=${{ secrets.DB_USER }}" > .config.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .config.env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .config.env
+
+      - name: SSH into DigitalOcean and restart pm2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/${{ secrets.DOMAIN_NAME }}/server
+            npm install
+            pm2 restart task_management_server

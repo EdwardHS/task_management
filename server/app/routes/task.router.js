@@ -21,4 +21,7 @@ router.delete("/:id", tasks.delete);
 // //update task to complete status by specific id
 router.put("/complete/:id", tasks.markedAsComplete);
 
+// //update task to pending status by specific id
+router.put("/pending/:id", tasks.markedAsPending);
+
 module.exports = router;

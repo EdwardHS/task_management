@@ -73,3 +73,18 @@ exports.markedAsComplete = expressAsyncHandler(async (req, res) => {
   else 
     res.error("Task not found! Failed to update", 400);
 });
+
+exports.markedAsPending = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const [data] = await Task.update({status: statusConfig.tasks.INCOMPLETE}, {
+    where: {id: id, status: statusConfig.tasks.COMPLETE}
+  });
+
+  console.log(data);
+
+  if (data === 1)
+    res.success(null, "Task successfully updated.");
+  else 
+    res.error("Task not found! Failed to update", 400);
+});

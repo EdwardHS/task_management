@@ -9,8 +9,12 @@ const TaskPage = () => {
     const [currentTask, setCurrentTask] = useState(null);
 
     useEffect(() => {
-        taskService.getTasks().then(data => setTasks(data));
+        fetchTasks();
     }, []);
+
+    const fetchTasks = () => {
+        taskService.getTasks().then(data => setTasks(data));
+    };
 
     const handleCreate = () => {
         setCurrentTask(null);
@@ -24,33 +28,36 @@ const TaskPage = () => {
 
     const handleSave = (taskData) => {
         if (currentTask) {
-            taskService.updateTask(currentTask.id, taskData).then((response) => {
-                const { updatedAt } = response.data;
-                setTasks(tasks.map(task =>
-                    task.id === currentTask.id ? { ...task, ...taskData, updatedAt } : task
-                ));
+            taskService.updateTask(currentTask.id, taskData).then(() => {
+                fetchTasks();
             });
         } else {
-            const newTask = { ...taskData, timestamp: new Date(), status: false };
-            taskService.createTask(newTask).then(createdTask => {
-                setTasks([createdTask, ...tasks]);
+            const newTask = { ...taskData, timestamp: new Date(), completed: false };
+            taskService.createTask(newTask).then(() => {
+                fetchTasks(); 
             });
         }
+        fetchTasks();
         setIsDialogOpen(false);
     };
 
     const handleDelete = (id) => {
         taskService.deleteTask(id).then(() => {
-            setTasks(tasks.filter(task => task.id !== id));
+            fetchTasks();
         });
         setIsDialogOpen(false);
     };
 
     const handleMarkComplete = (id) => {
         taskService.markComplete(id).then(() => {
-            setTasks(tasks.map(task =>
-                task.id === id ? { ...task, status: true } : task
-            ));
+            fetchTasks();
+        });
+        setIsDialogOpen(false);
+    };
+
+    const handleMarkPending = (id) => {
+        taskService.markPending(id).then(() => {
+            fetchTasks(); 
         });
         setIsDialogOpen(false);
     };
@@ -107,6 +114,7 @@ const TaskPage = () => {
                 onSave={handleSave}
                 onDelete={handleDelete} 
                 onMarkComplete={handleMarkComplete}
+                onMarkPending={handleMarkPending}
                 initialTask={currentTask}
             />
         </div>

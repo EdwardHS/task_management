@@ -1,7 +1,7 @@
 import React from 'react';
 import '../assets/css/TaskItem.css';
 
-const TaskItem = ({ task, onEdit, onDelete, onComplete }) => {
+const TaskItem = ({ task, onEdit, onDelete, onComplete, onPending }) => {
     return (
         <li className="task-item">
             <div className="task-header">
@@ -11,6 +11,9 @@ const TaskItem = ({ task, onEdit, onDelete, onComplete }) => {
                 <button onClick={() => onDelete(task.id)}>Delete</button>
                 {!task.status && (
                     <button onClick={() => onComplete(task.id)}>Mark as Complete</button>
+                )}
+                {task.status && (
+                    <button onClick={() => onPending(task.id)}>Mark as Pending</button>
                 )}
             </div>
             <p className="task-description">{task.description}</p>

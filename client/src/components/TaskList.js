@@ -2,7 +2,7 @@ import React from 'react';
 import TaskItem from './TaskItem';
 import '../assets/css/TaskPage.css';
 
-const TaskList = ({ tasks, onEdit, onDelete, onComplete }) => {
+const TaskList = ({ tasks, onEdit, onDelete, onComplete, onPending }) => {
     if (tasks.length === 0) {
         return <p className="no-tasks-message">No Available Tasks</p>;
     }
@@ -30,6 +30,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onComplete }) => {
                                 onEdit={onEdit}
                                 onDelete={onDelete}
                                 onComplete={onComplete}
+                                onPending={onPending}
                             />
                         ))}
                     </ul>

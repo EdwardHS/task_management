@@ -7,10 +7,8 @@ const getTasks = async () => {
         const response = await axios.get('/api/v1/tasks');
         console.log(response.data);
         if (Array.isArray(response.data.data)) {
-            console.log("yes");
             return response.data.data; // Ensure it's an array
         } else {
-            console.log("no");
             return []; // Return an empty array if the response is not what you expect
         }
     } catch (error) {
@@ -37,12 +35,17 @@ const markComplete = async (id) => {
     await axios.put(`${API_URL}/complete/${id}`);
 };
 
+const markPending = async (id) => {
+    await axios.put(`${API_URL}/pending/${id}`);
+};
+
 const taskService = {
     getTasks,
     createTask,
     updateTask,
     deleteTask,
     markComplete,
+    markPending,
 };
 
 export default taskService;
