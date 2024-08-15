@@ -43,6 +43,7 @@ jobs:
           script: |
             cd /var/www/${{ secrets.DOMAIN_NAME }}/server
             echo "NODE_ENV='local'" > config.env
+            echo "PORT=${{ secrets.NODE_PORT }}" >> config.env
             echo "DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}" >> config.env
             echo "DB_USER=${{ secrets.DB_USER }}" >> config.env
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> config.env
