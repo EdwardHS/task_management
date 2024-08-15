@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           source: server/*
-          target: /var/www/${{ secrets.DOMAIN_NAME }}/server/
+          target: /var/www/${{ secrets.DOMAIN_NAME }}/
 
       - name: Create config file
         run: |
